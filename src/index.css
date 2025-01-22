@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Ancho y alto del scrollbar */
+::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+}
+
+/* Color de fondo del scrollbar */
+::-webkit-scrollbar-track {
+	background-color: transparent;
+}
+
+/* Color del pulgar del scrollbar */
+::-webkit-scrollbar-thumb {
+	background-color: #d9d9d9;
+	border-radius: 0.5rem;
+}
+
+/* Redondear las esquinas de la pista del scrollbar */
+::-webkit-scrollbar-track-piece {
+	border-radius: 0.5rem;
+}
+
+.customCheckboxContainer input[type="checkbox"]:checked + .customCheckbox::after {
+	content: "";
+	position: absolute;
+	left: 6.5px;
+	top: 3px;
+	width: 5px;
+	height: 10px;
+	border: solid #666666;
+	border-width: 0 2px 2px 0;
+	transform: rotate(45deg);
+}

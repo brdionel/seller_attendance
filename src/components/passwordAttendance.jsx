@@ -10,7 +10,7 @@ const PasswordAttendance = ({
 
   return (
     <div className="">
-      <div className="flex min-h-[54px] items-center justify-start rounded-t-[16px] border-b border-[#F0F0F0] bg-[#E8EFF3] px-4">
+      <div className="flex min-h-[54px] items-center justify-start rounded-t-[16px] border-b border-[#F0F0F0] bg-white px-4">
         <p className="text-[24px] font-bold uppercase text-[#666767]">
           To start, please enter your password
         </p>

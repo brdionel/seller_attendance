@@ -1,4 +1,7 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { FiCheck } from "react-icons/fi";
+import { FiArrowLeft } from "react-icons/fi";
+import confetti from 'canvas-confetti';
 
 const TextArea = ({
   opt,
@@ -33,11 +36,10 @@ const TextArea = ({
       />
       <button
         onClick={addCommentToOrder}
-        className={`absolute bottom-8 right-8 h-[36px] w-[187px] bg-[#93B0C3] text-sm font-normal text-white ${
-          comment.trim().length === 0 ? "opacity-30" : "opacity-100"
-        }`}
+        className={`absolute bottom-8 right-8 h-[36px] w-[187px] bg-[#93B0C3] text-sm font-normal text-white ${comment.trim().length === 0 ? "opacity-30" : "opacity-100"
+          }`}
       >
-        Salvar e voltar
+        Save and Go Back
       </button>
     </div>
   );
@@ -167,71 +169,103 @@ const Questionnaire = ({ data, handleSubmit, loadingCloseAttendance }) => {
     setComment("");
   };
 
+  function capitalizeWords(str) {
+    return str
+      .split(' ') // Divide el string por los espacios
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Convierte la primera letra a mayúscula y el resto a minúscula
+      .join(' '); // Une las palabras de nuevo con espacios
+  }
+
   return (
     <>
       {isFirstLevel() ? (
         <>
-          <div className="flex flex-col gap-2">
-            <span className="text-[20px] font-bold leading-[22px] text-secondary-dark">
-              Não Venda
-            </span>
-            <div className="grid grid-cols-2 gap-3 overflow-y-scroll">
-              {currentQuestions.map((item, index) => (
-                <button
-                  key={index}
-                  style={{
-                    boxShadow: "0px 15px 20px -20px #0000002B",
-                  }}
-                  className={`flex ${
-                    isFirstLevel() ? "h-[85px] px-4" : "min-h-[58px] px-6 py-4"
-                  } items-center gap-2 rounded-[8px] border-[2px] border-[#6193AF]`}
-                  onClick={() => handleQuestionClick(item)}
-                >
-                  {isFirstLevel() && (
-                    <span
-                      className={` hidden font-icons text-[28px] text-[#666767] md:flex`}
-                    >
-                      {item.question.icon}
-                    </span>
-                  )}
-                  <span className="text-left text-[18px] font-bold leading-[22px] text-secondary-dark">
-                    {item.question.label ? item.question.label : item.label}
-                  </span>
-                </button>
-              ))}
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <span className="mb-3 text-[20px] font-bold leading-[22px] text-secondary text-left">
+                Successful Sale
+              </span>
+              <button
+                onClick={() => {
+                  confetti()
+                  handleSubmit({
+                    success: true
+                  })
+                }
+                }
+                style={{
+                  boxShadow: "0px 15px 20px -20px #0000002B"
+                }}
+                className="min-h-[85px] flex items-center gap-2 rounded-[8px] border-[2px] border-primary px-4 py-3"
+              >
+                <FiCheck className="text-primary text-[35px]" />
+                <span className="text-[20px] font-bold leading-[22px] text-primary">
+                  The sale was successfully complete
+                </span>
+              </button>
             </div>
-            {answersSelected.length > 0 && (
-              <div className="absolute bottom-8 right-8 flex items-center justify-end">
-                <button
-                  className={`flex h-[36px] w-[188px] items-center justify-center bg-[#93B0C3] text-base font-normal text-white ${
-                    answersSelected.length === 0 || loadingCloseAttendance
+            <div className="flex flex-col gap-2">
+              <span className="mb-3 text-[20px] font-bold leading-[22px] text-secondary text-left">
+                No Sale
+              </span>
+              <div className="grid grid-cols-2 gap-3 overflow-y-scroll">
+                {currentQuestions.map((item, index) => (
+                  <button
+                    key={index}
+                    style={{
+                      boxShadow: "0px 15px 20px -20px #0000002B",
+                    }}
+                    className={`flex ${isFirstLevel() ? "h-[85px] px-4" : "min-h-[58px] px-6 py-4"
+                      } items-center gap-2 rounded-[8px] border-[2px] border-primary`}
+                    onClick={() => handleQuestionClick(item)}
+                  >
+                    {isFirstLevel() && (
+                      <span
+                        className={`hidden text-[35px] text-secondary md:flex`}
+                      >
+                        {item.question.icon}
+                      </span>
+                    )}
+                    <span className="text-left text-[18px] font-bold leading-[22px] text-secondary">
+                      {item.question.label ? capitalizeWords(item.question.label) : capitalizeWords(item.label)}
+                    </span>
+
+                  </button>
+                ))}
+              </div>
+              {answersSelected.length > 0 && (
+                <div className="absolute bottom-8 right-8 flex items-center justify-end">
+                  <button
+                    className={`flex h-[36px] w-[188px] items-center justify-center bg-[#93B0C3] text-base font-normal text-white ${answersSelected.length === 0 || loadingCloseAttendance
                       ? "opacity-30"
                       : "opacity-100"
-                  }`}
-                  type="submit"
-                  disabled={
-                    answersSelected.length === 0 || loadingCloseAttendance
-                  }
-                  onClick={onSubmit}
-                >
-                  Fechar atendimento
-                </button>
-              </div>
-            )}
+                      }`}
+                    type="submit"
+                    disabled={
+                      answersSelected.length === 0 || loadingCloseAttendance
+                    }
+                    onClick={onSubmit}
+                  >
+                    Close Service
+                  </button>
+                </div>
+              )}
+
+            </div>
           </div>
         </>
       ) : (
         <>
           <div className="flex items-center justify-between">
-            <span className="text-[22px] font-bold leading-[22px] text-secondary-dark">
-              {getLabel()}
+            <span className="text-[22px] font-bold leading-[22px] text-secondary">
+              {capitalizeWords(getLabel())}
             </span>
             <button
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 text-secondary font-medium"
               onClick={handleBackClick}
             >
-              <span className="Icons_v2_geral-iv2-icon_backArrow2 font-icons text-[26px] text-[#666767]"></span>
-              <span className="text-base font-medium leading-[18.5px] text-secondary-dark">
+              <FiArrowLeft />
+              <span className="text-base font-medium leading-[18.5px] text-secondary">
                 Voltar
               </span>
             </button>
@@ -265,17 +299,16 @@ const Questionnaire = ({ data, handleSubmit, loadingCloseAttendance }) => {
                           checked={getIsChecked(opt)}
                         />
                         <div
-                          className={`customCheckbox relative h-[20px] w-[20px] rounded-[5px] border border-[#D0D0D0] ${
-                            getIsChecked(opt) ? "checked" : ""
-                          }`}
+                          className={`customCheckbox relative h-[20px] w-[20px] rounded-[5px] border border-[#D0D0D0] ${getIsChecked(opt) ? "checked" : ""
+                            }`}
                         ></div>
                       </>
                     )}
-                    <span className="ml-2 text-[20px] font-bold leading-[22px] text-secondary-dark">
-                      {opt.label}
+                    <span className="ml-2 text-[20px] font-bold leading-[22px] text-secondary">
+                      {capitalizeWords(opt.label)}
                     </span>
                     {!("type" in opt) && (
-                      <span className="Icons_v2_geral-iv2-icon_backArrow2 absolute right-4 rotate-180 font-icons text-[39px] text-[#666767]"></span>
+                      <span className="Icons_v2_geral-iv2-icon_backArrow2 absolute right-4 rotate-180 font-icons text-[39px] text-secondary"></span>
                     )}
                   </div>
                 </div>
@@ -297,18 +330,17 @@ const Questionnaire = ({ data, handleSubmit, loadingCloseAttendance }) => {
           {!showTextArea && (
             <div className="absolute bottom-8 right-8 flex items-center justify-end">
               <button
-                className={`flex h-[36px] w-[188px] items-center justify-center bg-[#93B0C3] text-base font-normal text-white ${
-                  answersSelected.length === 0 || loadingCloseAttendance
-                    ? "opacity-30"
-                    : "opacity-100"
-                }`}
+                className={`flex h-[36px] w-[188px] items-center justify-center bg-[#93B0C3] text-base font-normal text-white ${answersSelected.length === 0 || loadingCloseAttendance
+                  ? "opacity-30"
+                  : "opacity-100"
+                  }`}
                 type="submit"
                 disabled={
                   answersSelected.length === 0 || loadingCloseAttendance
                 }
                 onClick={onSubmit}
               >
-                Fechar atendimento
+                Close Service
               </button>
             </div>
           )}
@@ -334,11 +366,10 @@ const ClosingAttendance = ({
   return (
     <div className="pb-4">
       <div
-        className={`flex min-h-[54px] items-center ${
-          showCloseButton ? "justify-between" : "justify-start"
-        } rounded-t-[16px] border-b border-[#F0F0F0] bg-[#E8EFF3] px-6`}
+        className={`flex min-h-[54px] items-center ${showCloseButton ? "justify-between" : "justify-start"
+          } rounded-t-[16px] border-b border-[#F0F0F0] px-6`}
       >
-        <p className="text-[24px] font-bold uppercase text-[#666767]">
+        <p className="text-[24px] font-medium uppercase text-[#666767]">
           {titleQuestion}
         </p>
         {showCloseButton && (

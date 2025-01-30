@@ -1,399 +1,286 @@
-import { useRef } from "react";
-import "./App.css";
+import { useRef, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { useState } from "react";
+import { TfiTruck } from "react-icons/tfi";
+import { FiBox } from "react-icons/fi";
+import { FiInfo } from "react-icons/fi";
+import { FiShoppingCart } from "react-icons/fi";
 import PasswordAttendanceModal from "./components/passwordModal";
 import ClosingAttendanceModal from "./components/clossingAttendanceModal";
 
-import { FaTag } from "react-icons/fa";
-import { FaCalendarAlt } from "react-icons/fa";
-import { FaWrench } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa";
+import "./App.css";
 
 const sellersList = [
   {
-    seller_id: 1383,
-    user_full_name: "Bianca Lima Nascimento",
-    store_name: "Moema",
+    seller_id: 484,
+    user_full_name: "Valeria Restrepo",
     store_id: 4,
     avatar:
-      "https://livo-pos.s3.us-east-2.amazonaws.com/formula/formula_bq2d_20241004224033.jpg",
+      "https://avataaars.io/?avatarStyle=Circle&topType=LongHairMiaWallace&accessoriesType=Blank&hairColor=BrownDark&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light",
     serve_free: true,
   },
   {
-    seller_id: 484,
-    user_full_name: "Liliane Emily Da Silva Cardoso",
-    store_name: "Moema",
+    seller_id: 1383,
+    user_full_name: "Flora O’Connor",
     store_id: 4,
     avatar:
-      "https://livo-pos.s3.us-east-2.amazonaws.com/formula/formula_enRe_20241008020258.jpg",
+      "https://avataaars.io/?avatarStyle=Circle&topType=LongHairNotTooLong&accessoriesType=Blank&hairColor=Red&facialHairType=Blank&clotheType=GraphicShirt&clotheColor=Gray01&graphicType=Bat&eyeType=Happy&eyebrowType=UpDownNatural&mouthType=Smile&skinColor=Light",
     serve_free: true,
   },
   {
     seller_id: 668,
-    user_full_name: "Yasmin Ferreira Da Silva",
-    store_name: "Moema",
+    user_full_name: "Callum MacLeod",
     store_id: 4,
     avatar:
-      "https://livo-pos.s3.us-east-2.amazonaws.com/formula/formula_enRe_20241008020115.jpg",
+      "https://avataaars.io/?avatarStyle=Circle&topType=WinterHat4&accessoriesType=Round&hatColor=Black&facialHairType=BeardLight&facialHairColor=Auburn&clotheType=GraphicShirt&clotheColor=Heather&graphicType=Cumbia&eyeType=Close&eyebrowType=SadConcernedNatural&mouthType=Twinkle&skinColor=Light",
     serve_free: true,
   },
   {
     seller_id: 590,
-    user_full_name: "Bruna Albs Passos",
-    store_name: "Moema",
+    user_full_name: "Arben Krasniqi",
     store_id: 4,
     avatar:
-      "https://livo-pos.s3.us-east-2.amazonaws.com/formula/formula_bq2d_20241004224033.jpg",
+      "https://avataaars.io/?avatarStyle=Circle&topType=LongHairDreads&accessoriesType=Blank&hairColor=Auburn&facialHairType=BeardMedium&facialHairColor=Brown&clotheType=BlazerShirt&eyeType=Default&eyebrowType=RaisedExcited&mouthType=Smile&skinColor=Pale",
     serve_free: true,
   },
   {
     seller_id: 1906,
-    user_full_name: "Bruno Atendimento",
-    store_name: "Moema",
+    user_full_name: "Liridona Gashi",
     store_id: 4,
     avatar:
-      "https://livo-pos.s3.us-east-2.amazonaws.com/formula/formula_ep2b_20250113143650.jpg",
+      "https://avataaars.io/?avatarStyle=Circle&topType=LongHairCurvy&accessoriesType=Blank&hairColor=Brown&facialHairType=Blank&clotheType=CollarSweater&clotheColor=White&eyeType=WinkWacky&eyebrowType=RaisedExcitedNatural&mouthType=Smile&skinColor=Tanned",
     serve_free: true,
   },
 ];
 
 const allQuestions = [
   {
-    pack_test_id: 153,
-    store_id: 4,
-    question: {
-      id: 1667,
-      question: "PREÇO",
-      label: "PREÇO",
-      active: true,
-      icon: <FaTag />,
-      order: 2,
-      options: [
+    "pack_test_id": 154,
+    "store_id": 5,
+    "question": {
+      "id": 1701,
+      "question": "PRODUCT AVAILABILITY",
+      "label": "PRODUCT AVAILABILITY",
+      "active": true,
+      "icon": <FiShoppingCart />,
+      "order": 1,
+      "options": [
         {
-          id: 3891,
-          label: "CARTÃO NÃO APROVADO",
-          value: "True",
-          type: "",
-          order: 1,
-          question: 1667,
+          "id": 4001,
+          "label": "PRODUCT OUT OF STOCK",
+          "value": "True",
+          "type": "",
+          "order": 1,
+          "question": 1701
         },
         {
-          id: 3892,
-          label: "NECESSITA DE MAIOR QUANTIDADE DE PARCELAS",
-          value: "True",
-          type: "",
-          order: 2,
-          question: 1667,
-        },
+          "id": 4002,
+          "label": "PRODUCT NOT AVAILABLE IN STORE",
+          "value": "True",
+          "type": "",
+          "order": 2,
+          "question": 1701
+        }
       ],
-      subquestions: [
+      "subquestions": [
         {
-          id: 1668,
-          question: "LENTES",
-          label: "LENTES",
-          active: true,
-          img_class: "",
-          order: 1,
-          options: [
+          "id": 1702,
+          "question": "COLOR",
+          "label": "COLOR",
+          "active": true,
+          "img_class": "",
+          "order": 1,
+          "options": [
             {
-              id: 3893,
-              label: "CONCORRENTE OFERECEU MENOR PREÇO",
-              value: "True",
-              type: "",
-              order: 1,
-              question: 1668,
+              "id": 4003,
+              "label": "COLOR NOT AVAILABLE",
+              "value": "True",
+              "type": "",
+              "order": 1,
+              "question": 1702
             },
             {
-              id: 3894,
-              label: "PROCURAVA LENTES ATÉ R$ 200,00",
-              value: "True",
-              type: "",
-              order: 2,
-              question: 1668,
-            },
-            {
-              id: 3895,
-              label: "PROCURAVA LENTES ATÉ R$ 500,00",
-              value: "True",
-              type: "",
-              order: 3,
-              question: 1668,
-            },
+              "id": 4004,
+              "label": "LOOKED FOR SPECIFIC COLOR",
+              "value": "True",
+              "type": "",
+              "order": 2,
+              "question": 1702
+            }
           ],
-          subquestions: [],
+          "subquestions": []
         },
         {
-          id: 1669,
-          question: "ÓCULOS",
-          label: "ÓCULOS",
-          active: true,
-          img_class: "",
-          order: 2,
-          options: [
+          "id": 1703,
+          "question": "SIZE",
+          "label": "SIZE",
+          "active": true,
+          "img_class": "",
+          "order": 2,
+          "options": [
             {
-              id: 3896,
-              label: "PROCURAVA ÓCULOS ATÉ R$ 200,00",
-              value: "True",
-              type: "",
-              order: 1,
-              question: 1669,
+              "id": 4005,
+              "label": "SIZE OUT OF STOCK",
+              "value": "True",
+              "type": "",
+              "order": 1,
+              "question": 1703
             },
             {
-              id: 3897,
-              label: "PROCURAVA ÓCULOS ATÉ R$ 300,00",
-              value: "True",
-              type: "",
-              order: 2,
-              question: 1669,
-            },
-            {
-              id: 3898,
-              label: "PROCURAVA ÓCULOS ATÉ R$ 500,00",
-              value: "True",
-              type: "",
-              order: 3,
-              question: 1669,
-            },
+              "id": 4006,
+              "label": "DIDN'T FIND IDEAL SIZE",
+              "value": "True",
+              "type": "",
+              "order": 2,
+              "question": 1703
+            }
           ],
-          subquestions: [],
-        },
-      ],
-    },
+          "subquestions": []
+        }
+      ]
+    }
   },
   {
-    pack_test_id: 154,
-    store_id: 4,
-    question: {
-      id: 1670,
-      question: "RESERVA",
-      label: "RESERVA",
-      active: true,
-      icon: FaCalendarAlt,
-      order: 3,
-      options: [],
-      subquestions: [
+    "pack_test_id": 160,
+    "store_id": 4,
+    "question": {
+      "id": 1685,
+      "question": "SHIPPING RESTRICTIONS",
+      "label": "SHIPPING RESTRICTIONS",
+      "active": true,
+      "icon": <TfiTruck />,
+      "order": 7,
+      "options": [
         {
-          id: 1671,
-          question: "RESERVA GRAU",
-          label: "RESERVA GRAU",
-          active: true,
-          img_class: "",
-          order: 1,
-          options: [
-            {
-              id: 3899,
-              label: "COMPROU SIM",
-              value: "True",
-              type: "",
-              order: 1,
-              question: 1671,
-            },
-            {
-              id: 3900,
-              label: "COMPROU NÃO",
-              value: "True",
-              type: "",
-              order: 2,
-              question: 1671,
-            },
-          ],
-          subquestions: [],
+          "id": 3927,
+          "label": "NO SHIPPING TO THIS REGION",
+          "value": "True",
+          "type": "",
+          "order": 1,
+          "question": 1685
         },
         {
-          id: 1672,
-          question: "RESERVA SOLAR",
-          label: "RESERVA SOLAR",
-          active: true,
-          img_class: "",
-          order: 2,
-          options: [
-            {
-              id: 3901,
-              label: "COMPROU SIM",
-              value: "True",
-              type: "",
-              order: 1,
-              question: 1672,
-            },
-            {
-              id: 3902,
-              label: "COMPROU NÃO",
-              value: "True",
-              type: "",
-              order: 2,
-              question: 1672,
-            },
-          ],
-          subquestions: [],
-        },
-        {
-          id: 1673,
-          question: "RESERVA ORÇAMENTO",
-          label: "RESERVA ORÇAMENTO",
-          active: true,
-          img_class: "",
-          order: 3,
-          options: [
-            {
-              id: 3903,
-              label: "COMPROU SIM",
-              value: "True",
-              type: "",
-              order: 1,
-              question: 1673,
-            },
-            {
-              id: 3904,
-              label: "COMPROU NÃO",
-              value: "True",
-              type: "",
-              order: 2,
-              question: 1673,
-            },
-          ],
-          subquestions: [],
-        },
+          "id": 3928,
+          "label": "SHIPPING DELAY DUE TO WEATHER",
+          "value": "True",
+          "type": "",
+          "order": 2,
+          "question": 1685
+        }
       ],
-    },
+      "subquestions": [
+        {
+          "id": 1686,
+          "question": "SHIPPING ALTERNATIVES",
+          "label": "SHIPPING ALTERNATIVES",
+          "active": true,
+          "img_class": "",
+          "order": 1,
+          "options": [
+            {
+              "id": 3929,
+              "label": "EXPEDITED SHIPPING AVAILABLE",
+              "value": "True",
+              "type": "",
+              "order": 1,
+              "question": 1686
+            },
+            {
+              "id": 3930,
+              "label": "NO ALTERNATIVE AVAILABLE",
+              "value": "True",
+              "type": "",
+              "order": 2,
+              "question": 1686
+            }
+          ],
+          "subquestions": []
+        }
+      ]
+    }
   },
   {
-    pack_test_id: 155,
-    store_id: 4,
-    question: {
-      id: 1674,
-      question: "MANUTENÇÃO",
-      label: "MANUTENÇÃO",
-      active: true,
-      icon: <FaWrench />,
-      order: 4,
-      options: [],
-      subquestions: [
+    "pack_test_id": 159,
+    "store_id": 4,
+    "question": {
+      "id": 1683,
+      "question": "STOCK UNAVAILABLE",
+      "label": "STOCK UNAVAILABLE",
+      "active": true,
+      "icon": <FiBox />,
+      "order": 6,
+      "options": [
         {
-          id: 1675,
-          question: "ARMAÇÃO LIVO",
-          label: "ARMAÇÃO LIVO",
-          active: true,
-          img_class: "",
-          order: 1,
-          options: [
-            {
-              id: 3905,
-              label: "SIM",
-              value: "True",
-              type: "",
-              order: 1,
-              question: 1675,
-            },
-            {
-              id: 3906,
-              label: "NÃO",
-              value: "True",
-              type: "",
-              order: 2,
-              question: 1675,
-            },
-          ],
-          subquestions: [],
+          "id": 3923,
+          "label": "ITEM OUT OF STOCK",
+          "value": "True",
+          "type": "",
+          "order": 1,
+          "question": 1683
         },
+        {
+          "id": 3924,
+          "label": "ITEM DISCONTINUED",
+          "value": "True",
+          "type": "",
+          "order": 2,
+          "question": 1683
+        }
       ],
-    },
+      "subquestions": [
+        {
+          "id": 1684,
+          "question": "ALTERNATIVE OPTION",
+          "label": "ALTERNATIVE OPTION",
+          "active": true,
+          "img_class": "",
+          "order": 1,
+          "options": [
+            {
+              "id": 3925,
+              "label": "YES, AVAILABLE IN OTHER COLORS",
+              "value": "True",
+              "type": "",
+              "order": 1,
+              "question": 1684
+            },
+            {
+              "id": 3926,
+              "label": "NO, NO ALTERNATIVE AVAILABLE",
+              "value": "True",
+              "type": "",
+              "order": 2,
+              "question": 1684
+            }
+          ],
+          "subquestions": []
+        }
+      ]
+    }
   },
   {
-    pack_test_id: 156,
-    store_id: 4,
-    question: {
-      id: 1676,
-      question: "NÃO POSSUÍMOS MODELO DE LENTE",
-      label: "NÃO POSSUÍMOS MODELO DE LENTE",
-      active: true,
-      icon: <FaEyeSlash />,
-      order: 5,
-      options: [
+    "pack_test_id": 174,
+    "store_id": 4,
+    "question": {
+      "id": 1678,
+      "question": "OTHER",
+      "label": "OTHER",
+      "active": true,
+      "icon": <FiInfo />,
+      "order": 1,
+      "options": [
         {
-          id: 3911,
-          label: "LENTE ESPELHADA",
-          value: "True",
-          type: "",
-          order: 1,
-          question: 1676,
-        },
-        {
-          id: 3912,
-          label: "POLARIZADA",
-          value: "True",
-          type: "",
-          order: 2,
-          question: 1676,
-        },
-        {
-          id: 3913,
-          label: "BIFOCAL",
-          value: "True",
-          type: "",
-          order: 3,
-          question: 1676,
-        },
+          "id": 3910,
+          "label": "WHAT HAPPENED?",
+          "value": "True",
+          "type": "input",
+          "order": 1,
+          "question": 1678
+        }
       ],
-      subquestions: [
-        {
-          id: 1677,
-          question: "MARCA",
-          label: "MARCA",
-          active: true,
-          img_class: "",
-          order: 1,
-          options: [
-            {
-              id: 3907,
-              label: "RODENSTOCK",
-              value: "True",
-              type: "",
-              order: 1,
-              question: 1677,
-            },
-            {
-              id: 3908,
-              label: "HOYA",
-              value: "True",
-              type: "",
-              order: 2,
-              question: 1677,
-            },
-            {
-              id: 3909,
-              label: "ZHETTA",
-              value: "True",
-              type: "",
-              order: 3,
-              question: 1677,
-            },
-          ],
-          subquestions: [
-            {
-              id: 1678,
-              question: "OUTROS",
-              label: "OUTROS",
-              active: true,
-              img_class: "",
-              order: 1,
-              options: [
-                {
-                  id: 3910,
-                  label: "QUAL MARCA?",
-                  value: "True",
-                  type: "input",
-                  order: 1,
-                  question: 1678,
-                },
-              ],
-              subquestions: [],
-            },
-          ],
-        },
-      ],
-    },
-  },
+      "subquestions": []
+    }
+  }
+
 ];
 
 function App() {
@@ -426,19 +313,6 @@ function App() {
 
   const findItemById = (id, array) => {
     return array.find((item) => item.seller_id == id);
-  };
-
-  const getFormattedDate = () => {
-    const date = new Date();
-
-    const days = ["Mon.", "Thu.", "Wed.", "Tue.", "Fri.", "Sat.", "Sun."];
-    const dayOfWeek = days[date.getDay()];
-
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-
-    return `${dayOfWeek} ${day} / ${month} / ${year}`;
   };
 
   const goingOn = () => {
@@ -521,7 +395,7 @@ function App() {
       return;
     }
 
-    if (source.droppableId === "1" && destination.droppableId === "2") {
+    if ((source.droppableId === "1" && destination.droppableId === "2") || (source.droppableId === "1" && destination.droppableId === "3")) {
       toggleDrawer("PASSWORD_ATTENDANCE_MODAL");
     } else if (source.droppableId === "3") {
       toggleDrawer("CLOSING_ATTENDANCE_MODAL");
@@ -637,7 +511,7 @@ function App() {
           onDragStart={handleDragStart}
         >
           <div
-            className="z-5 bottom-3 flex w-full flex-col rounded-2xl border  bg-white text-center md:w-[93%] "
+            className="z-5 bottom-3 flex w-full flex-col rounded-lg border  bg-white text-center md:w-[93%] "
             style={{
               height: "calc(100vh - 100px)",
               // maxHeight: "calc(100vh - 130px)",
@@ -645,20 +519,20 @@ function App() {
             }}
           >
             <div className="flex h-full flex-col">
-              <div className="flex min-h-[54px] items-center justify-between rounded-t-[16px] bg-[#E8EFF3] px-4">
-                <p className="text-[24px] font-bold leading-[22px] text-[#666767]">
-                  {getFormattedDate()}
+              <div className="flex min-h-[54px] items-center justify-between rounded-t-[8px] bg-white px-4">
+                <p className="text-[24px] font-normal leading-[22px] text-secondary">
+                  Sales Service
                 </p>
               </div>
-              <section className="flex h-full max-h-full grid-cols-12 flex-col gap-2 rounded-2xl p-3 md:grid md:[flex-flow:initial]">
+              <section className="flex h-full max-h-full grid-cols-12 flex-col gap-2 rounded-lg p-3 md:grid md:[flex-flow:initial]">
                 <div
-                  className="col-span-2 rounded-2xl border border-[#F0F0F0]"
+                  className="col-span-2 rounded-lg border border-[#F0F0F0]"
                   style={{
                     height: "100%",
                     overflow: "hidden",
                   }}
                 >
-                  <div className="rounded-t-2xl border border-[#F0F0F0] bg-white">
+                  <div className="rounded-t-lg border-b border-[#F0F0F0] bg-white">
                     <span className="flex justify-start p-3 text-sm font-bold uppercase leading-[22px] text-[#666767]">
                       Sellers
                     </span>
@@ -666,9 +540,8 @@ function App() {
                   <Droppable droppableId={"1"}>
                     {(provided, snapshot) => (
                       <ul
-                        className={`flex flex-col gap-4 overflow-x-hidden overflow-y-scroll rounded-b-2xl border-[2px] border-transparent bg-[#F0F0F0] px-4 pb-4 pt-8 ${
-                          snapshot.isDraggingOver ? "border-[#D9D9D9]" : ""
-                        }`}
+                        className={`flex flex-col gap-4 overflow-x-hidden overflow-y-scroll rounded-b-lg border-[2px] border-transparent px-4 pb-4 pt-8 ${snapshot.isDraggingOver ? "border-[#D9D9D9]" : ""
+                          }`}
                         style={{
                           height: "calc(100% - 100px)",
                           minHeight: "387px",
@@ -709,13 +582,13 @@ function App() {
                   </Droppable>
                 </div>
                 <div
-                  className="col-span-5 rounded-2xl border border-[#F0F0F0]"
+                  className="col-span-5 rounded-lg border border-[#F0F0F0]"
                   style={{
                     height: "100%",
                     overflow: "hidden",
                   }}
                 >
-                  <div className="rounded-t-2xl bg-[#E8EFF3]">
+                  <div className="rounded-t-lg bg-white border-b border-[#F0F0F0]">
                     <span className="flex justify-start p-3 text-sm font-bold uppercase leading-[22px] text-[#666767]">
                       Turn List
                     </span>
@@ -723,11 +596,10 @@ function App() {
                   <Droppable droppableId={"2"}>
                     {(provided, snapshot) => (
                       <ul
-                        className={`flex flex-col gap-4 overflow-x-hidden overflow-y-scroll border-[2px] border-transparent px-4 pb-4 pt-8 ${
-                          snapshot.isDraggingOver
-                            ? "border-[#D9D9D9] bg-secondary-thin"
-                            : ""
-                        }`}
+                        className={`flex flex-col gap-4 overflow-x-hidden overflow-y-scroll border-[2px] border-transparent px-4 pb-4 pt-8 ${snapshot.isDraggingOver
+                          ? "border-[#D9D9D9] bg-secondary-thin"
+                          : ""
+                          }`}
                         style={{
                           height: "calc(100% - 100px)",
                         }}
@@ -766,13 +638,13 @@ function App() {
                   </Droppable>
                 </div>
                 <div
-                  className="col-span-5 rounded-2xl border border-[#F0F0F0]"
+                  className="col-span-5 rounded-lg border border-[#F0F0F0]"
                   style={{
                     height: "100%",
                     overflow: "hidden",
                   }}
                 >
-                  <div className="rounded-t-2xl bg-[#E8EFF3]">
+                  <div className="rounded-t-lg bg-white border-b border-[#F0F0F0]">
                     <span className="flex justify-start p-3 text-sm font-bold uppercase leading-[22px] text-[#666767]">
                       In Service
                     </span>
@@ -780,11 +652,10 @@ function App() {
                   <Droppable droppableId={"3"}>
                     {(provided, snapshot) => (
                       <ul
-                        className={`flex flex-col gap-4 overflow-x-hidden overflow-y-scroll border-[2px] border-transparent px-4 pb-4 pt-8 ${
-                          snapshot.isDraggingOver
-                            ? "border-[#D9D9D9] bg-secondary-thin"
-                            : ""
-                        }`}
+                        className={`flex flex-col gap-4 overflow-x-hidden overflow-y-scroll border-[2px] border-transparent px-4 pb-4 pt-8 ${snapshot.isDraggingOver
+                          ? "border-[#D9D9D9] bg-secondary-thin"
+                          : ""
+                          }`}
                         style={{
                           height: "calc(100% - 100px)",
                         }}
@@ -842,7 +713,7 @@ function App() {
           onSubmit={handleCloseAttendence}
           allQuestions={allQuestions}
           handleQuestionSelected={handleQuestionSelected}
-          titleQuestion={"Fechamento de atendimento"}
+          titleQuestion={"Closing of service"}
         />
       )}
     </>

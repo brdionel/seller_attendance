@@ -29,7 +29,7 @@ const ClosingAttendanceModal = ({
         handleClose={handleClose}
         showCloseButton={false}
         style={{
-          minHeight: "500px",
+          minHeight: "570px",
           minWidth: isMobile ? "100%" : "685px",
           margin: isMobile ? "0" : "5vh auto",
           borderRadius: "16px",
